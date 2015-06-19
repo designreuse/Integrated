@@ -22,24 +22,18 @@ public class LoginServlet extends HttpServlet {
 	private static String login_page = "login/login.jsp";
 	ServletRequest session = null;
 	String username = null;
-	String forward = "";  
-   
-    public LoginServlet() {
-        super();
-        
-    }
+	String forward = "";
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Login");
+	public LoginServlet() {
+		super();
+
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		//System.out.println("Login");
 		String action = request.getParameter("action");
-		if (action.equalsIgnoreCase("logout")){
-			HttpSession session = request.getSession();
-			session.invalidate();
-			RequestDispatcher view = request
-					.getRequestDispatcher("login/login.jsp");
-			view.forward(request, response);
-		}else {
+		if (action == null) {
 			HttpSession session = request.getSession();
 			String username = (String) session.getAttribute("UserName");
 			System.out.println(username);
@@ -55,11 +49,36 @@ public class LoginServlet extends HttpServlet {
 						.getRequestDispatcher("login/login.jsp");
 				view.forward(request, response);
 			}
+		} else {
+			if (action.equalsIgnoreCase("logout")) {
+				HttpSession session = request.getSession();
+				session.invalidate();
+				RequestDispatcher view = request
+						.getRequestDispatcher("login/login.jsp");
+				view.forward(request, response);
+			} else {
+				HttpSession session = request.getSession();
+				String username = (String) session.getAttribute("UserName");
+				//System.out.println(username);
+				// System.exit(0);
+				if (username != null) {
+					forward = "includes/dashboard.jsp";
+					request.setAttribute("weppage", forward);
+					RequestDispatcher view = request
+							.getRequestDispatcher("index.jsp");
+					view.forward(request, response);
+				} else {
+					RequestDispatcher view = request
+							.getRequestDispatcher("login/login.jsp");
+					view.forward(request, response);
+				}
+			}
 		}
+
 	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("dopost login");
 		LoginUser user = new LoginUser();
 		int userexist = 0;
@@ -68,7 +87,7 @@ public class LoginServlet extends HttpServlet {
 		user.setPassword(request.getParameter("Password"));
 		try {
 			userexist = auth.checkUserAuth(user);
-		} catch (NoSuchAlgorithmException | SQLException e) {			
+		} catch (NoSuchAlgorithmException | SQLException e) {
 			e.printStackTrace();
 		}
 		if (userexist > 0) {
@@ -78,7 +97,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("weppage", forward);
 			RequestDispatcher view = request.getRequestDispatcher("index.jsp");
 			view.forward(request, response);
-		}else {
+		} else {
 			RequestDispatcher view = request
 					.getRequestDispatcher("login/login.jsp");
 			view.forward(request, response);
