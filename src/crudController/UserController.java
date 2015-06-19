@@ -1,6 +1,9 @@
 package crudController;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -60,10 +63,41 @@ public class UserController extends HttpServlet {
 				.getRequestDispatcher("index.jsp");
 		view.forward(request, response);
 	}
-
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		UserDao userdao = new UserDao();
+		String userid = request.getParameter("userid");
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String dob = request.getParameter("dob");
+		String email = request.getParameter("email");
+		User user = new User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(email);
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");		
+		try {
+			Date dobdate = formatter.parse(dob);
+			user.setDob(dobdate);
+		} catch (ParseException e) {			
+			e.printStackTrace();
+		}
+		if(userid !=""){
+			int useridint = Integer.parseInt(userid);
+			user.setUserid(useridint);
+			userdao.updateUser(user);
+			
+		}else{
+			userdao.addUser(user);
+			//System.out.println("adduser");
+		}
+		List<User> userlist = userdao.getAllUsers();			
+		request.setAttribute("users",userlist);
+		forward = "includes/listUser.jsp";
+		request.setAttribute("weppage", forward);
+		RequestDispatcher view = request
+				.getRequestDispatcher("index.jsp");
+		view.forward(request, response);
 	}
 
 }
