@@ -23,18 +23,14 @@
 
             <!-- NAVIGATION STARTS -->
             <li>
-                <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                <a href="login"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
             </li>
             <li>
                 <a href="UserController?action=listUser"><i class="fa fa-th-large"></i> <span class="nav-label">List User</span></a>
+            </li>
+            <li>
+                <a href="FileUpload"><i class="fa fa-th-large"></i> <span class="nav-label">File Upload</span></a>
             </li>            
-            <!-- <li>
-                <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Category</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li><a href="graph_flot.html">Flot Charts</a></li>                    
-                </ul>
-            </li> -->         
-
             <!-- NAVIGATION ENDS -->
 
         </ul>

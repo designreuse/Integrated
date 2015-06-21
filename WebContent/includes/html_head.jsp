@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>This Is title</title>
+    <title>Integrated JAVA Web</title>
 
     <link href="${pageContext.request.contextPath}/assets/admintheme/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/admintheme/font-awesome/css/font-awesome.css" rel="stylesheet">
