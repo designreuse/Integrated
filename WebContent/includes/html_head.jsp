@@ -15,5 +15,6 @@
 
     <link href="${pageContext.request.contextPath}/assets/admintheme/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/admintheme/css/style.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/assets/admintheme/js/jquery-2.1.1.js"></script>
 
 </head>

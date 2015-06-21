@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.util.DBUtil;
+
+import model.Filemodel;
 import model.User;
 
 public class UserDao {
@@ -121,5 +124,20 @@ public class UserDao {
 		}
 
 		return user;
+	}
+	public void addFile(Filemodel filedes) {
+		Connection conn = null;
+		conn = DBUtil.getConnection();
+		try {
+			PreparedStatement psmt = conn.prepareStatement("insert into file_upload(full_name,file_name) values (?,?)");
+			psmt.setString(1,filedes.full_name);
+			psmt.setString(2, filedes.file_name);
+			psmt.executeUpdate();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}finally{
+			DBUtil.closeConnection(conn);
+		}
+		
 	}
 }
