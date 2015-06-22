@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.util.DBUtil;
 
+import model.DistVdc;
 import model.Filemodel;
 import model.User;
 
@@ -137,7 +138,27 @@ public class UserDao {
 			e.printStackTrace();
 		}finally{
 			DBUtil.closeConnection(conn);
+		}		
+	}
+	public List<DistVdc> getAllDist(){
+		Connection conn = null;
+		List<DistVdc> Alldist = new ArrayList<DistVdc>();
+		try {
+			conn = DBUtil.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rSet = stmt.executeQuery("select * from district");
+			while (rSet.next()) {
+				DistVdc dist = new DistVdc();				
+				dist.setDist_id(rSet.getInt("dist_id"));
+				dist.setDist_name(rSet.getString("district "));	
+				Alldist.add(dist);
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeConnection(conn);
 		}
-		
+		return Alldist;		
 	}
 }

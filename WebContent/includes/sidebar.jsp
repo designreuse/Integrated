@@ -30,6 +30,9 @@
             </li>
             <li>
                 <a href="FileUpload"><i class="fa fa-th-large"></i> <span class="nav-label">File Upload</span></a>
+            </li>
+            <li>
+                <a href="FileUpload?action=ajaxform"><i class="fa fa-th-large"></i> <span class="nav-label">Ajax Form</span></a>
             </li>            
             <!-- NAVIGATION ENDS -->
 

@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logincheck.CheckLogin;
+import model.DistVdc;
 import model.Filemodel;
+import model.User;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -41,11 +43,22 @@ public class FileUpload extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException {		
+		String action = request.getParameter("action");
+		// String action2 = request.getQueryString();		
 		CheckLogin checkuser = new CheckLogin();
 		islogin = checkuser.checkLogin(request);
-		if (islogin){
-			forward = "includes/fileupload.jsp";
+		if (islogin){			
+			if(action ==null){
+				forward = "includes/fileupload.jsp";
+			}else if (action.equalsIgnoreCase("ajaxform")){
+				UserDao userdao = new UserDao();
+				List<DistVdc> district = userdao.getAllDist();
+				request.setAttribute("users", district);
+				forward = "contentpages/ajaxform.jsp";
+			}else{
+				forward = "includes/fileupload.jsp";
+			}			
 			request.setAttribute("weppage", forward);
 			RequestDispatcher view = request.getRequestDispatcher("index.jsp");
 			view.forward(request, response);

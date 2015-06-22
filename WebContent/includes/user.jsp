@@ -36,7 +36,7 @@
 											Name</label>
 										<div class="col-md-12">
 											<input type="text" name="firstName" class="form-control"
-												value="<c:out value="${user.firstName}" />" id="firstName">
+												value="<c:out value="${user.firstName}" />" required="required" id="firstName">
 										</div>
 									</div>
 								</div>
@@ -47,7 +47,7 @@
 											Name</label>
 										<div class="col-md-12">
 											<input type="text" name="lastName" class="form-control"
-												value="<c:out value="${user.lastName}" />" id="lastName">
+												value="<c:out value="${user.lastName}" />" required="required" id="lastName">
 										</div>
 									</div>
 								</div>
@@ -56,7 +56,7 @@
 									<div class="form-group">
 										<label class="col-md-12 control-label" for="year">DOB</label>
 										<div class="col-md-12">
-											<input type="text" name="dob" class="form-control"
+											<input type="text" name="dob" required="required" class="form-control"
 												value="<fmt:formatDate pattern="dd/MM/yyyy" value="${user.dob}" />" />
 										</div>
 									</div>
@@ -65,7 +65,7 @@
 									<div class="form-group">
 										<label class="col-md-12 control-label" for="year">Email</label>
 										<div class="col-md-12">
-											<input type="text" name="email" class="form-control"
+											<input type="text" required="required" name="email" class="form-control"
 												value="<c:out value="${user.email}" />" />
 										</div>
 									</div>
