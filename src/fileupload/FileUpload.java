@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logincheck.CheckLogin;
-import model.DistVdc;
+
 import model.Filemodel;
 import model.User;
 
@@ -53,8 +53,9 @@ public class FileUpload extends HttpServlet {
 				forward = "includes/fileupload.jsp";
 			}else if (action.equalsIgnoreCase("ajaxform")){
 				UserDao userdao = new UserDao();
-				List<DistVdc> district = userdao.getAllDist();
-				request.setAttribute("users", district);
+				List<User> userlist = userdao.getAllUsers();
+				request.setAttribute("users", userlist);				
+				//System.out.println(userlist);							
 				forward = "contentpages/ajaxform.jsp";
 			}else{
 				forward = "includes/fileupload.jsp";

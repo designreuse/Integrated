@@ -1,4 +1,5 @@
 package com.dao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +10,9 @@ import java.util.List;
 
 import com.util.DBUtil;
 
-import model.DistVdc;
 import model.Filemodel;
 import model.User;
+import model.VdcList;
 
 public class UserDao {
 
@@ -92,6 +93,7 @@ public class UserDao {
 				user.setEmail(rSet.getString("email"));
 				users.add(user);
 			}
+			//System.out.println(users);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -126,39 +128,48 @@ public class UserDao {
 
 		return user;
 	}
+
 	public void addFile(Filemodel filedes) {
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		try {
-			PreparedStatement psmt = conn.prepareStatement("insert into file_upload(full_name,file_name) values (?,?)");
-			psmt.setString(1,filedes.full_name);
+			PreparedStatement psmt = conn
+					.prepareStatement("insert into file_upload(full_name,file_name) values (?,?)");
+			psmt.setString(1, filedes.full_name);
 			psmt.setString(2, filedes.file_name);
 			psmt.executeUpdate();
-		} catch (SQLException e) {			
-			e.printStackTrace();
-		}finally{
-			DBUtil.closeConnection(conn);
-		}		
-	}
-	public List<DistVdc> getAllDist(){
-		Connection conn = null;
-		List<DistVdc> Alldist = new ArrayList<DistVdc>();
-		try {
-			conn = DBUtil.getConnection();
-			Statement stmt = conn.createStatement();
-			ResultSet rSet = stmt.executeQuery("select * from district");
-			while (rSet.next()) {
-				DistVdc dist = new DistVdc();				
-				dist.setDist_id(rSet.getInt("dist_id"));
-				dist.setDist_name(rSet.getString("district "));	
-				Alldist.add(dist);
-			}
-			
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.closeConnection(conn);
 		}
-		return Alldist;		
+	}
+
+	public List<VdcList> getAllVdc(int dist_id) {
+		Connection conn = null;
+		 List<VdcList> vdclist = new ArrayList<VdcList>();		
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement pStmt = conn
+					.prepareStatement("SELECT * FROM vdc where dist_id=?");
+			pStmt.setInt(1, dist_id);
+			ResultSet rSet = pStmt.executeQuery();		
+			while (rSet.next()) {
+				 VdcList vdc = new VdcList();
+				 User user = new User();
+				//System.out.println(rSet.getInt("vdc_id") + " " + rSet.getString("vdc_name") +" "+rSet.getInt("dist_id"));
+							
+				vdc.setVdcid(rSet.getInt("vdc_id"));
+				vdc.setFirstName(rSet.getString("vdc_name"));
+				vdclist.add(vdc);
+				//System.out.println(vdc);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+		return vdclist;
 	}
 }

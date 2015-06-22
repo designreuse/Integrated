@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <div class="row">
 	<div class="col-lg-10">
 		<div class="ibox float-e-margins">
@@ -18,6 +20,10 @@
 						<div class="col-lg-10">
 							<select name="district" class="form-control" id="district">
 								<option value="">--select--</option>
+								<c:forEach items="${users}" var="user">
+									
+									<option value="${user.userid}">${user.firstName}</option>								
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -32,12 +38,14 @@
 					<div class="form-group">
 						<label class="col-lg-2 control-label">Population</label>
 						<div class="col-lg-10">
-							<input type="text" class="form-control" name="population" placeholder="population">
+							<input type="text" class="form-control" name="population"
+								placeholder="population">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-lg-offset-2 col-lg-10">
-							<input type="submit" class="btn btn-sm btn-success" value="Submit">								
+							<input type="submit" class="btn btn-sm btn-success"
+								value="Submit">
 						</div>
 					</div>
 				</form>
@@ -51,10 +59,10 @@
 			var district = $("#district").val();
 			$.ajax({
 				type :'POST',
-				url ='AjaxCall',
-				data : {district:district},
+				url :'AjaxCall',
+				data : {district:district,action:"getvdc"},
 				success:function(msg){
-					
+					//alert(msg);
 				}
 			});
 		});

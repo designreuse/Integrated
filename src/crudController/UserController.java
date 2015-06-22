@@ -33,7 +33,7 @@ public class UserController extends HttpServlet {
 		CheckLogin checkuser = new CheckLogin();
 		islogin = checkuser.checkLogin(request);
 		if (islogin) {
-			System.out.println("listuser");
+			// System.out.println("listuser");
 			String action = request.getParameter("action");
 			UserDao userdao = new UserDao();
 			if (action == null) {
