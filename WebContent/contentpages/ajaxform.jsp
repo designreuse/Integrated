@@ -12,6 +12,7 @@
 					</a>
 				</div>
 			</div>
+			<%-- 			 <h2>${distlist}</h2>						 --%>
 			<div class="ibox-content">
 				<form class="form-horizontal">
 					<div class="form-group">
@@ -20,9 +21,8 @@
 						<div class="col-lg-10">
 							<select name="district" class="form-control" id="district">
 								<option value="">--select--</option>
-								<c:forEach items="${users}" var="user">
-									
-									<option value="${user.userid}">${user.firstName}</option>								
+								<c:forEach items="${distlist}" var="dist">
+									<option value="${dist.dist_id}">${dist.dist_name}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -54,15 +54,18 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function() {
-		$("#district").bind('change',function(){
+	$(document).ready(function(){
+		$("#district").bind('change', function() {
 			var district = $("#district").val();
 			$.ajax({
-				type :'POST',
-				url :'AjaxCall',
-				data : {district:district,action:"getvdc"},
-				success:function(msg){
-					//alert(msg);
+				type : 'POST',
+				url : 'AjaxCall',
+				data : {
+					district : district,
+					action : "getvdc"
+				},
+				success : function(msg) {
+					$("#vdc").html(msg);
 				}
 			});
 		});

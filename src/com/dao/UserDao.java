@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.util.DBUtil;
 
+import model.District;
 import model.Filemodel;
 import model.User;
 import model.VdcList;
@@ -93,7 +94,7 @@ public class UserDao {
 				user.setEmail(rSet.getString("email"));
 				users.add(user);
 			}
-			//System.out.println(users);
+			// System.out.println(users);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -145,24 +146,45 @@ public class UserDao {
 		}
 	}
 
+	public List<District> getAllDist() {
+		Connection conn = null;
+		List<District> district = new ArrayList<District>();
+		try{
+		conn = DBUtil.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rSet = stmt.executeQuery("select * from district");		
+			while (rSet.next()) {
+				District dist = new District();
+				dist.setDist_id(rSet.getInt("dist_id"));
+				dist.setDist_name(rSet.getString("district_name"));	
+				district.add(dist);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+		return district;
+	}
+
 	public List<VdcList> getAllVdc(int dist_id) {
 		Connection conn = null;
-		 List<VdcList> vdclist = new ArrayList<VdcList>();		
+		List<VdcList> vdclist = new ArrayList<VdcList>();
 		try {
 			conn = DBUtil.getConnection();
 			PreparedStatement pStmt = conn
 					.prepareStatement("SELECT * FROM vdc where dist_id=?");
 			pStmt.setInt(1, dist_id);
-			ResultSet rSet = pStmt.executeQuery();		
+			ResultSet rSet = pStmt.executeQuery();
 			while (rSet.next()) {
-				 VdcList vdc = new VdcList();
-				 User user = new User();
-				//System.out.println(rSet.getInt("vdc_id") + " " + rSet.getString("vdc_name") +" "+rSet.getInt("dist_id"));
-							
+				VdcList vdc = new VdcList();
+				// System.out.println(rSet.getInt("vdc_id") + " " +
+				// rSet.getString("vdc_name") +" "+rSet.getInt("dist_id"));
+
 				vdc.setVdcid(rSet.getInt("vdc_id"));
 				vdc.setFirstName(rSet.getString("vdc_name"));
 				vdclist.add(vdc);
-				//System.out.println(vdc);
+				// System.out.println(vdc);
 			}
 
 		} catch (SQLException e) {
