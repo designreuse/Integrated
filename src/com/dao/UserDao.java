@@ -149,17 +149,17 @@ public class UserDao {
 	public List<District> getAllDist() {
 		Connection conn = null;
 		List<District> district = new ArrayList<District>();
-		try{
-		conn = DBUtil.getConnection();
-		Statement stmt = conn.createStatement();
-		ResultSet rSet = stmt.executeQuery("select * from district");		
+		try {
+			conn = DBUtil.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rSet = stmt.executeQuery("select * from district");
 			while (rSet.next()) {
 				District dist = new District();
 				dist.setDist_id(rSet.getInt("dist_id"));
-				dist.setDist_name(rSet.getString("district_name"));	
+				dist.setDist_name(rSet.getString("district_name"));
 				district.add(dist);
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.closeConnection(conn);
@@ -180,7 +180,6 @@ public class UserDao {
 				VdcList vdc = new VdcList();
 				// System.out.println(rSet.getInt("vdc_id") + " " +
 				// rSet.getString("vdc_name") +" "+rSet.getInt("dist_id"));
-
 				vdc.setVdcid(rSet.getInt("vdc_id"));
 				vdc.setFirstName(rSet.getString("vdc_name"));
 				vdclist.add(vdc);
@@ -193,5 +192,24 @@ public class UserDao {
 			DBUtil.closeConnection(conn);
 		}
 		return vdclist;
+	}
+
+	public boolean savePopulation(int vdc, String population) {
+		Connection conn = null;
+		conn = DBUtil.getConnection();
+		try {
+			PreparedStatement psmt = conn
+					.prepareStatement("insert into population(vdc_id,popolation) values (?,?)");
+			psmt.setInt(1, vdc);
+			psmt.setString(2, population);
+			psmt.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+		
 	}
 }

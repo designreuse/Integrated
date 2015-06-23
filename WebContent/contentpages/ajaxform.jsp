@@ -1,5 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<div style="display: none" id="alertdiv"
+	class="alert alert-success alert-dismissable col-md-10">
+	<button type="button" class="close" data-dismiss="alert"
+		aria-hidden="true">×</button>
+		Successfully Added Population !!
+</div>
 <div class="row">
 	<div class="col-lg-10">
 		<div class="ibox float-e-margins">
@@ -14,7 +20,7 @@
 			</div>
 			<%-- 			 <h2>${distlist}</h2>						 --%>
 			<div class="ibox-content">
-				<form class="form-horizontal">
+				<form class="form-horizontal" id="ajaxform">
 					<div class="form-group">
 						<label class="col-lg-2 control-label">District</label>
 
@@ -54,20 +60,57 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function(){
-		$("#district").bind('change', function() {
-			var district = $("#district").val();
-			$.ajax({
-				type : 'POST',
-				url : 'AjaxCall',
-				data : {
-					district : district,
-					action : "getvdc"
-				},
-				success : function(msg) {
-					$("#vdc").html(msg);
-				}
+	function show_message(message,type){
+		toastr.options = {
+	            closeButton: true,
+	            progressBar: true,
+	            showMethod: 'fadeIn',
+	            timeOut: 4000
+	        };
+		if(type ==1){
+			toastr.success(message);
+		}else if(type ==0){
+			toastr.error(message);
+		}else {
+			toastr.warning(message);
+		}
+	}
+	
+	$(document).ready(
+			function() {
+				$("#district").bind('change', function() {
+					var district = $("#district").val();
+					$.ajax({
+						type : 'POST',
+						url : 'AjaxCall',
+						data : {
+							district : district,
+							action : "getvdc"
+						},
+						success : function(msg) {
+							$("#vdc").html(msg);
+						}
+					});
+				});
+				$("#ajaxform").submit(
+						function(event) {
+							event.preventDefault();
+							var formdata = $("#ajaxform").serialize()
+									+ "&action=savepopulation";
+							$.ajax({
+								type : 'POST',
+								url : 'AjaxCall',
+								data : formdata,
+								success : function(msg) {
+									if (msg == 1) {										
+										//$("#alertdiv").show();
+										show_message("SuccessFully added Data",1)
+										$("#ajaxform")[0].reset();
+									} else {
+										show_message("error while adding Data",0)
+									}
+								}
+							});
+						});
 			});
-		});
-	});
 </script>

@@ -16,5 +16,7 @@
     <link href="${pageContext.request.contextPath}/assets/admintheme/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/admintheme/css/style.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/assets/admintheme/js/jquery-2.1.1.js"></script>
+    <link href="${pageContext.request.contextPath}/assets/admintheme/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/assets/admintheme/js/plugins/toastr/toastr.min.js"></script>
 
 </head>
